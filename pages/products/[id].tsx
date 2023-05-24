@@ -26,7 +26,10 @@ export const getStaticPaths: GetStaticPaths<ProductPageParams> = async (ctx) => 
 export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams> = async ({ params: {id}}) => {
   const product = await getProduct(id) // your fetch function here 
   console.log('[getStaticProps] in [id].tsx ', product);
-  return { props: { product } };
+  return {
+    props: { product },
+    revalidate: 30, // seconds
+  };
 }
 
 function ProductPage({product}) {

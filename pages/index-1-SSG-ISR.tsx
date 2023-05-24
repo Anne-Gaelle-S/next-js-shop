@@ -10,9 +10,10 @@ interface HomePageProps {
   products: Product[];
 }
 
+// SSG + ISR
+// getStaticProps is better than getServerSideProps whenever possible 
 export const getStaticProps: GetStaticProps = async () => {
   const products = await getProducts();
-console.log("[getStaticProps] ", products);
   return {
     props: { products },
     revalidate: 30, // valid value expire every 30 seconds

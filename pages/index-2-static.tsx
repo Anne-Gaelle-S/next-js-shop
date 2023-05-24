@@ -6,6 +6,11 @@ import { getProducts } from '../lib/products'
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState([])
+  // CSR
+  // fetch data at every refresh
+  // browser calls the CMS API directly
+  // so API should be visible to anybody rather than just our own servers
+  // add (maybe) many datas in response that we don't actually use
   useEffect(() => {
     getProducts().then(setProducts)
   }, [])

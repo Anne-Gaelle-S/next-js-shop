@@ -9,6 +9,7 @@ interface HomePageProps {
   products: Product[];
 }
 
+// SSG
 export const getStaticProps: GetStaticProps = async () => {
   const products = await getProducts();
 

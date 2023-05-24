@@ -1,19 +1,19 @@
 // Option 2: fetch products on the client side (in useEffect)
-// directly from an external API
+// from an internal API route
 import Head from 'next/head'
 import React, { useState, useEffect } from 'react'
 import Title from '../components/Title'
-import { getProducts } from '../lib/products'
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState([])
   // CSR
-  // fetch data at every refresh
-  // browser calls the CMS API directly
-  // so API should be visible to anybody rather than just our own servers
-  // add (maybe) many datas in response that we don't actually use
   useEffect(() => {
-    getProducts().then(setProducts) // content-length = 9517
+    (async () => {
+      // this way we reduce the size of the data sent to the browser
+      const response = await fetch('/api/products'); // content-length = 192
+      const products = await response.json();
+      setProducts(products);
+    })();
   }, [])
 
   console.log('[HomePage] render ', products);

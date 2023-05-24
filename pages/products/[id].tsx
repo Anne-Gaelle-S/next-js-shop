@@ -12,6 +12,7 @@ interface ProductPageProps {
   product: Product;
 }
 
+// run at build time
 export const getStaticPaths: GetStaticPaths<ProductPageParams> = async (ctx) => {
   const products = await getProducts() // your fetch function here 
   console.log('[getStaticPaths] in [id].tsx ', products);
@@ -19,17 +20,22 @@ export const getStaticPaths: GetStaticPaths<ProductPageParams> = async (ctx) => 
     paths: products.map((product) => ({
       params: {id: product.id.toString() }
     })),
-    fallback: false //  if none paths above matches the request URL we will show 404 Not Found page
+    fallback: 'blocking' // if given path does not match paths given at build time
+    // we will try to request data from server
+    // the client will wait until the server has generated the new page
   }
 }
 
 export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams> = async ({ params: {id}}) => {
-  const product = await getProduct(id) // your fetch function here 
-  console.log('[getStaticProps] in [id].tsx ', product);
-  return {
-    props: { product },
-    revalidate: 30, // seconds
-  };
+  try {
+    const product = await getProduct(id) // your fetch function here 
+    console.log('[getStaticProps] in [id].tsx ', product);
+    return {
+      props: { product },
+    };
+  } catch(err){
+    return { notFound: true };
+  }
 }
 
 function ProductPage({product}) {

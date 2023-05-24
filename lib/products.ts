@@ -1,3 +1,7 @@
+import { fetchJson } from './api';
+
+const CMS_URL: string = 'http://localhost:1337';
+
 export interface Product {
   id: number;
   title: string;
@@ -5,17 +9,12 @@ export interface Product {
 }
 
 export async function getProduct(id): Promise<Product> {
-  const response = await fetch(`http://localhost:1337/products/${id}`)
-  if(!response.ok) {
-    throw new Error(`request failed: ${response.status}`)
-  }
-  const product = await response.json();
+  const product = await fetchJson(`${CMS_URL}/products/${id}`);
   return { id: product.id, title: product.title, description: product.description };
 }
 
 
 export async function getProducts(): Promise<Product[]> {
-  const response = await fetch('http://localhost:1337/products')
-  const products = await response.json();
+  const products = await fetchJson(`${CMS_URL}/products`);
   return products.map((product) => ({ id: product.id, title: product.title }));
 }

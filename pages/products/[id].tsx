@@ -28,16 +28,18 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
   return { props: { product } };
 }
 
-function ProductPage() {
+function ProductPage({product}) {
   return (
-  <>
-    <Head>
-      <title>Next shop</title>
-    </Head>
-    <main className="px-6 py-4">
-      <Title>Product</Title>
-    </main>
-  </>);
+    <>
+      <Head>
+        <title>Next shop</title>
+      </Head>
+      <main className="px-6 py-4">
+        <Title>{product.title}</Title>
+        <p>{product.description}</p>
+      </main>
+    </>
+  );
 }
 
 export default ProductPage;

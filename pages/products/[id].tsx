@@ -14,7 +14,7 @@ interface ProductPageProps {
 
 export const getStaticPaths: GetStaticPaths<ProductPageParams> = async (ctx) => {
   const products = await getProducts() // your fetch function here 
-
+  console.log('[getStaticPaths] in [id].tsx ', products);
   return {
     paths: products.map((product) => ({
       params: {id: product.id.toString() }
@@ -25,10 +25,12 @@ export const getStaticPaths: GetStaticPaths<ProductPageParams> = async (ctx) => 
 
 export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams> = async ({ params: {id}}) => {
   const product = await getProduct(id) // your fetch function here 
+  console.log('[getStaticProps] in [id].tsx ', product);
   return { props: { product } };
 }
 
 function ProductPage({product}) {
+  console.log('[ProductPage] render');
   return (
     <>
       <Head>

@@ -11,6 +11,7 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps = async () => {
   const products = await getProducts();
+  console.log('[getStaticProps] in index.tsx ', products);
   return {
     props: { products },
     revalidate: 5 * 60, // seconds
@@ -18,6 +19,7 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const HomePage: React.FC<HomePageProps> = ({products}) => {
+  console.log('[HomePage] render');
   return (
     <>
       <Head>

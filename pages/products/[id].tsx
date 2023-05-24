@@ -3,6 +3,7 @@ import Title from "../../components/Title";
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { Product, getProducts, getProduct } from "../../lib/products";
 import { ParsedUrlQuery } from "querystring";
+import { ApiError } from "../../lib/api";
 
 interface ProductPageParams extends ParsedUrlQuery {
   id: string;
@@ -32,9 +33,13 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
     console.log('[getStaticProps] in [id].tsx ', product);
     return {
       props: { product },
+      revalidate: 30, // seconds
     };
   } catch(err){
-    return { notFound: true };
+    if(err instanceof ApiError && err.status === 404) {
+      return { notFound: true };
+    }
+    throw err;
   }
 }
 

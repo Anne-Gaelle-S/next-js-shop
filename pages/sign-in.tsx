@@ -10,16 +10,22 @@ const SignInPage: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [status, setStatus] = useState({ loading: false, error: false});
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    const response = await fetchJson('http://localhost:1337/auth/local', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ identifier: email, password }),
-    });
-    console.log('sign in:', response);
-    router.push('/');
+    setStatus({ loading: true, error: false });
+    try {
+      await fetchJson('http://localhost:1337/auth/local', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier: email, password }),
+      });
+      setStatus({ loading: false, error: false });
+      router.push('/');
+    } catch(err) {
+      setStatus({ loading: false, error: true });
+    }
   };
 
   return (
@@ -41,9 +47,11 @@ const SignInPage: React.FC = () => {
             required
           />
         </Field>
-        <Button type="submit">
-          Sign In
-        </Button>
+        {status.error && <p className="text-red-700">Invalid credentials</p>}
+        {status.loading
+          ? (<p>Loading...</p>)
+          : (<Button type="submit">Sign In</Button>)
+        }
       </form>
     </Page>
   );

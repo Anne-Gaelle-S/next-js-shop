@@ -7,6 +7,7 @@ export interface Product {
   title: string;
   description: string;
   price: string;
+  pictureUrl: string;
 }
 
 export async function getProduct(id): Promise<Product> {
@@ -26,5 +27,6 @@ function stripProduct(product): Product {
     title: product.title,
     description: product.description,
     price: '$' + product.price.toFixed(2), // use Internationalization API would be better
+    pictureUrl: CMS_URL + product.picture.url,
   };
 }

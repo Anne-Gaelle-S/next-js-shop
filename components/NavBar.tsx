@@ -16,6 +16,11 @@ const NavBar: React.FC = () => {
     })();
   }, []);
 
+  const handleSignOut = async () => {
+    await fetchJson('/api/logout');
+    setUser(undefined);
+  };
+
   return (
     <nav className="px-2 py-1 text-sm">
       <ul className="flex gap-2">
@@ -28,7 +33,7 @@ const NavBar: React.FC = () => {
         {user 
           ? (<>
             <li>{user.name}</li>
-            <li><button>Sign Out</button></li>
+            <li><button onClick={handleSignOut}>Sign Out</button></li>
           </>)
           : (<li><Link href="/sign-in">Sign In</Link></li>)}
       </ul>

@@ -14,7 +14,7 @@ export const getStaticProps: GetStaticProps = async () => {
   console.log('[getStaticProps] in index.tsx ', products);
   return {
     props: { products },
-    revalidate: 30, // seconds
+    revalidate: parseInt(process.env.REVALIDATE_SECONDS), // seconds
   }
 }
 

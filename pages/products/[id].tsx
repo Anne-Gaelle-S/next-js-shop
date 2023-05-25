@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
     console.log('[getStaticProps] in [id].tsx ', product);
     return {
       props: { product },
-      revalidate: 30, // seconds
+      revalidate: parseInt(process.env.REVALIDATE_SECONDS), // seconds
     };
   } catch(err){
     if(err instanceof ApiError && err.status === 404) {

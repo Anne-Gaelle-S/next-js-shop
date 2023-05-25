@@ -4,8 +4,10 @@ import Field from '../components/Field';
 import Input from '../components/Input';
 import Page from '../components/Page';
 import { fetchJson } from '../lib/api';
+import { useRouter } from 'next/router';
 
 const SignInPage: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,6 +19,7 @@ const SignInPage: React.FC = () => {
       body: JSON.stringify({ identifier: email, password }),
     });
     console.log('sign in:', response);
+    router.push('/');
   };
 
   return (

@@ -16,10 +16,10 @@ const SignInPage: React.FC = () => {
     event.preventDefault();
     setStatus({ loading: true, error: false });
     try {
-      await fetchJson('http://localhost:1337/auth/local', {
+      await fetchJson('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier: email, password }),
+        body: JSON.stringify({ email, password }),
       });
       setStatus({ loading: false, error: false });
       router.push('/');

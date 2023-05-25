@@ -6,15 +6,25 @@ export interface Product {
   id: number;
   title: string;
   description: string;
+  price: string;
 }
 
 export async function getProduct(id): Promise<Product> {
   const product = await fetchJson(`${CMS_URL}/products/${id}`);
-  return { id: product.id, title: product.title, description: product.description };
+  return stripProduct(product);
 }
 
 
 export async function getProducts(): Promise<Product[]> {
   const products = await fetchJson(`${CMS_URL}/products`);
-  return products.map((product) => ({ id: product.id, title: product.title }));
+  return products.map((product) => stripProduct(product));
+}
+
+function stripProduct(product): Product {
+  return {
+    id: product.id,
+    title: product.title,
+    description: product.description,
+    price: '$' + product.price.toFixed(2), // use Internationalization API would be better
+  };
 }

@@ -11,7 +11,7 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps = async () => {
   const products = await getProducts();
-  console.log('[getStaticProps] in index.tsx ', products);
+  console.log('[getStaticProps] in index.tsx ');
   return {
     props: { products },
     revalidate: parseInt(process.env.REVALIDATE_SECONDS), // seconds

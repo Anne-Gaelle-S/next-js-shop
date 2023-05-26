@@ -39,6 +39,15 @@ export function useSignIn(): UseSignInResult {
   }
 }
 
+export function useSignOut() {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(async () => fetchJson('/api/logout'));
+  return async () => {
+    await mutation.mutateAsync();
+    queryClient.setQueryData(USER_QUERY_KEY, undefined);
+  }
+}
+
 export function useUser(): User {
   const query = useQuery<User>(USER_QUERY_KEY, async () => {
     try {

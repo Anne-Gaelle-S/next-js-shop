@@ -5,6 +5,7 @@ import { ApiError } from "../../lib/api";
 import Image from "next/image";
 import Page from "../../components/Page";
 import { useUser } from '../../hooks/user';
+import AddToCartWidget from '../../components/AddToCartWidget';
 
 interface ProductPageParams extends ParsedUrlQuery {
   id: string;
@@ -44,8 +45,9 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
   }
 }
 
+
 const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
-  console.log('[ProductPage] render');
+  const user = useUser();
   return (
     <Page title={product.title}>
       <div className="flex flex-col lg:flex-row">
@@ -55,6 +57,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
         <div className="flex-1 lg:ml-4">
           <p className="text-sm">{product.description}</p>
           <p className="text-lg font-bold mt-2">{product.price}</p>
+          {user && <AddToCartWidget productId={product.id} />}
         </div>
       </div>
     </Page>

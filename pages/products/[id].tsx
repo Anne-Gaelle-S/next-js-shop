@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from "querystring";
 import { ApiError } from "../../lib/api";
 import Image from "next/image";
 import Page from "../../components/Page";
+import { useUser } from '../../hooks/user';
 
 interface ProductPageParams extends ParsedUrlQuery {
   id: string;
